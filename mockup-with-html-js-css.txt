@@ -1,0 +1,28 @@
+defining how to use html, javascript, and css to successfully create application
+mockups. using bootstrap so that a lot of css doesn't need to be written.
+
+= the app =
+a shopping list app. this app should have the following features:
+* multiple stores
+* multiple lists going at the same time
+* collect quantity + item name
+* provide checkbox to tick off items gotten while shopping
+
+= getting started =
+* initial directory setup
+* download full, responsive, bootstrap.
+
+= html, js, css, and bootstrap =
+before connecting to anything on the back-end, you can do a lot with html and
+css. i like using bootstrap, so i'm going to include that in this phase.
+* create main.css placeholder
+* create main.js placeholder
+* create index.html
+* mock the shopping list in html using only bootstrap provided classes
+** list selector
+** shopping list
+** title
+** shop / edit nav
+** add items to list - textarea for multi-adds
+
+
