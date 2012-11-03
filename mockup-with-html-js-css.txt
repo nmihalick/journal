@@ -25,4 +25,10 @@ css. i like using bootstrap, so i'm going to include that in this phase.
 ** shop / edit nav
 ** add items to list - textarea for multi-adds
 
+= some interactivity =
+only adding the interactivity that matters - for this case is the change between
+nav and edit.
+* show the different nav views
 
+= next steps =
+* checkout the article on using amazon s3 to host websites to deliver this to your client.
