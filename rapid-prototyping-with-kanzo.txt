@@ -1,0 +1,60 @@
+a journal entry detailing how to use kanso to rapidly build a new app.
+
+= the app =
+a shopping list app. this app should have the following features:
+* multiple stores
+* multiple lists going at the same time
+* collect quantity + item name
+* provide checkbox to tick off items gotten while shopping
+
+= pre-setup =
+* install couchdb
+* install node.js
+* install kanso
+* start couchdb
+
+= getting started =
+* git init && README
+* initial directory setup
+* download the html for the shopping list mockup.
+* download full, responsive, bootstrap.
+* download purl.js jquery extension
+
+= html, js, css, and bootstrap =
+before connecting to anything on the back-end, you can do a lot with html and
+css. i like using bootstrap, so i'm going to include that in this phase.
+* create main.css placeholder
+* create main.js placeholder
+* create index.html
+* mock the shopping list in html using only bootstrap provided classes
+** list selector
+** shopping list
+** title
+** shop / edit nav
+** add items to list - textarea for multi-adds
+
+= adding basic interaction =
+start filling in main.js to add some interaction
+* setup view and controller namespaces
+* toggle the shop and edit nav and what it shows
+* add example json for the list
+* add view for the items converted to programmatic
+* add items using the textarea
+* add remove item controls
+
+= what about kanso? =
+* create .kansorc
+* create app.js
+* build kanso.json
+* kanso install and push
+* build test lists and upload them
+
+== connecting to couch db ==
+* the db module + the jquery module
+* display the test data
+* save the changes
+* build a view for all the lists
+* show the lists in the sidebar
+* start a new list
+
+
