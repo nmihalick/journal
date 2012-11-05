@@ -1,0 +1,50 @@
+all user interfaces are fundamentally these two things:
+1. displaying data to the user.
+2. providing interaction to that data.
+
+the object-interface-mapping concept uses these two fundamental principles to
+simplify the development of user interfaces.
+
+what does the programming interface look like?
+object for the interface takes the object to render.
+the following attributes should be defined:
+* reference to the object
+* interface
+* events[]
+the following functions should be defined:
+* render() - builds the interface. this includes adding the events.
+* draw() - draws the interface.
+* update() - updates the interface - shortcut to calling render and draw again.
+* remove() - removes the interface.
+
+how should ojbects be manages?
+it is up to your implementation. if you expect to be updating the object a lot
+without redrawing the entire interface, then you should store the object. if you
+don't expect to be changing the object a lot, then you don't need to keep it
+around in local memory.
+
+how to handle updates?
+i suggest creating an observer pattern to update your interface when the data is
+updated. this will make it simpler to update the interfaces and not have to type
+update events with object change events.
+
+what about nesting interface updates?
+first ask yourself if you actually need to nest them programmatically. for
+simplicity, draw the parent first. then draw anything nested in it after it is
+already drawn. this way you don't have to worry about complex nesting techniques
+in your code.
+
+= advantages =
+- focus is on the data.
+- separates interface from data.
+- separates interface from renderers.
+- makes drawing the same data in multiple ways easy.
+- makes drawing similar data the same way.
+
+= disadvantages =
+- limits the drawing to a single object, or creation of a complex object to draw
+  multiple objects.
+- could add to the memory footprint if the objects aren't manage correctly.
+
+= next =
+look for an article outlining how to do this in javascript.
