@@ -1,0 +1,225 @@
+journal of a prototype node.js and mongo rest service. there is no UI work
+focused on this project.
+
+= the app =
+
+a habit calendar with the following features:
+* provide user auth and login
+* submit a habit completed on a day.
+* get the length of a current habit change
+* get the longest change for a habit
+
+= setup =
+
+i already had node.js and mongodb installed. if you need help setting them up in
+your machine, then you should check out the links to their sites for
+installation instructions.
+
+based on my searches, express seems to be the defacto in managing a web server
+in node.js. mongosse is the standard in mongodb connects, so i'm trying that out
+too. i believe in making future maintenance easy, so i'm going to use a
+package.json file to install these dependencies.
+
+== package.json ==
+
+if you don't have a package.json template, you can copy mine from my codetote
+github repo. [[https://github.com/nmihalick/codetote/blob/master/template-nodejs-package.json]]
+
+under the dependencies, add the following under the dependencies section:
+	"express": "3.x", 
+	"mongoose": "3.3.x"
+these are the versions at the time of writing, so you should check those
+versions and update to the latest ones. run 'npm install' once these are added.
+
+now that you have everything installed, we can start building the server.
+
+= starting your server.js =
+
+to start your server, copy the following code. if you used express before,
+you'll notice this is what they suggest in their guide located at
+[[http://expressjs.com/guide.html]].
+
+    var express = require('express');
+    var app = express();
+
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(app.router);
+    app.use(logErrors);
+    app.use(clientErrorHandler);
+    app.use(errorHandler);
+
+    function logErrors(err, req, res, next) {
+	console.error(err.stack);
+	next(err);
+    }
+
+    function clientErrorHandler(err, req, res, next) {
+	if (req.xhr) {
+	    res.send(500, { error: 'Something blew up!' });
+	} 
+	else {
+	    next(err);
+	}
+    }
+
+    function errorHandler(err, req, res, next) {
+	res.status(500);
+	res.send('error', { error: err });
+    }
+
+    app.get('/', function(req, res){
+	res.send('Hello World\n');
+    });
+
+    app.listen(3000);
+    console.log('Listening on port 3000');
+
+once you have this setup, you should make sure it works. i'll be using curl
+to test the service, so lets use that. run:
+
+curl http://localhost:3000/
+
+it should return "Hello World". if that works, then you are ready to move
+forward to connecting it to the database.
+
+= tackling a mongodb =
+
+first, lets start the mongodb install. you installed it, so hopefully you
+remember how to do that.
+
+then lets setup the server to connect to the database. enter these 2 lines:
+
+    var mongoose = require('mongoose'),
+	db = mongoose.connect('mongodb://localhost/habits'),
+	Schema = mongoose.Schema;
+
+now we are going to setup a model for the user and the habit. we'll start with
+the user:
+
+    var User = mongoose.model('User', new Schema({
+	username: { type: String, required: true, unique: true },
+	name: { type: String, required: true }
+    }));
+
+and a habit record that maps a habit, user, and date together to track the habit:
+
+    var HabitRecord = new Schema({
+	date: { "type": Date, "default": Date.now },
+	habit: [Habit]
+    });
+
+= adding in the rest =
+
+no that the schemas are setup, lets put them into use by adding the services.
+
+== user services ==
+
+a user is needed before you can use the other services, so lets start with a
+PUT method.
+
+    app.put('/api/user', function (req, res){
+	console.log(req.body);
+	var data = {username: req.body.username, name: req.body.name};
+	var new_user = new User(data);
+	new_user.save(function(err) {
+	    if (err) return console.log(err);
+	    return console.log("user created");
+	});
+	return res.send(new_user+"\n");
+    });
+
+to test this method, simply run:
+
+    curl -X PUT -H 'Content-Type: application/json' http://localhost:3000/api/user -d '{"username":"one", "name":"neo"}'
+
+your result should be something like (your _id will be different:
+
+    { username: 'one', name: 'neo', _id: 50aafd49dd30fcad3f000001 }
+
+if you flip to your server, you'll see your console logs outputting to the
+system. play around with the data you send. you can send some bad data to see
+how the validation is handled. or try to produce other errors and see what
+happens.
+
+with the create working, we can now try out the get. we'll use the username in
+the get because usernames are unique.
+
+    app.get('/api/user/:username', function(req, res){
+	return User.findOne({username: req.params.username}, function(err, user) {
+	    if (err) return console.log(err);
+	    return res.send(user);
+	});
+    });
+
+run this command to test it:
+
+curl -X GET http://localhost:3000/api/user/one
+
+that is all you need to get a simple create and view for the users of your
+system.
+
+== habit tracking services ==
+
+now on to the habit tracking services, which aren't going to be all that
+different from the User services.
+
+the first service is going to be creating a new habit. this will be very similar
+to our PUT for the user. if the habit doesn't exist, it will create it.
+
+    app.put('/api/habit/:username', function (req, res){
+	console.log(req.body);
+	var data = {username: req.params.username,
+		    habit: req.body.habit,
+		    date: req.body.date
+		    };
+	var new_habit = new HabitRecord(data);
+	new_habit.save(function(err) {
+	    if (err) return console.log(err);
+	    return console.log("habit created");
+	});
+	return res.send(new_habit+"\n");
+    });
+
+run this curl command to test it. give it a few different dates so that we have
+some data for the next chain get.
+
+    curl -X PUT -H 'Content-Type: application/json' http://localhost:3000/api/habit/one -d '{"habit":"train", "date":"2012/01/01"}'
+
+and a second service will return your current chain. where the first two were
+pretty simple puts, this is a much more complex one because you'll have to do a
+little more than just a find or findOne. 
+
+    curl -X GET http://localhost:3000/api/habit/one/train
+
+so we know the username. and we know the habit. now we just need to record the
+current chain. we'll keep it simple and start at the most recent date. then
+cycle through until we find a break in the chain. that is out result.
+
+    app.get('/api/habit/:username/:habit', function(req, res){
+	var query =  HabitRecord.find({ username: req.params.username, habit: req.params.habit});
+	query.sort("-date");
+	return  query.exec(function (err, result) {
+	    if (err) return err;
+	    var ret_result = [result[0]];
+	    for (var i=1; i<result.length; i++) {
+		var result_date = new Date(result[i].date);
+		var compare_date = new Date(result_date);
+		compare_date.setDate(compare_date.getDate() + 1);
+		if (compare_date.toDateString() != new Date(result[i-1].date).toDateString()) {
+		    break;
+		}
+		ret_result.push(result[i]);
+	    }
+	    return res.send(ret_result.length+"\n");
+	});
+    });
+
+= conclusion =
+
+this isn't a very robust example. it only has 4 total rest calls. and i don't do
+much with validation or user authentication. but i think it gives a good glimpse into how
+easy it is to use mongodb and node.js to prototype an app. in not too long, you
+can have a pretty simple rest service to store your data. throw in your favorite
+javascript front-end framework and you can have a full prototype in a short
+period of time.
