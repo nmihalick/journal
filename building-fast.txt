@@ -1,0 +1,51 @@
+i've done a lot of reading about building new software products. everything
+talks about launching fast and often.
+
+while building my grocery list product, i was trying to do just that.
+
+i limited the features needed. if i thought something would be too complex to
+build, i'd slim it down. but i never got something i could release.
+
+then i figured out my problem.
+
+i started with the code. i wrote the entire back-end api. i figured, my next
+step would be to write the rest interface, then the Ui, and then release. it
+all sounded like a good plan. a great plan.
+
+a great plan, at least to me. in the past, i've tried to do it by building the
+whole UI, then worrying about tying in the backend later. this time, i figured
+i'd start with the part that always gave me trouble. instead, i'd get that built
+first, then the rest would be easy to add in.
+
+i realized there was a problem with this approach after spending a few weeks and
+not having a releasable product. the problem was, i didn't have a usable
+product that i could release.
+
+my solution to this problem came as a bit of an epiphany. i needed to focus on
+building the product, or a feature in the product, end to end. i already knew
+this, but for some reason didn't follow it.
+
+to get the app out, i needed to build something that was usable. so i focused on
+building the things that were most needed to be usable - a list with checkable
+items and a way to add items. build that, end to end, and publish it. there is a
+lot i don't need now (or maybe ever). a url, a banner, other features,
+other lists. these are all unnecessary to getting the initial app out. worry
+about these later.
+
+to figure out what i actually needed, i built to lists. one for the features to
+build, another for the framework features. i brain dumped everything that i
+could think of, then started deleting everything that i didn't need. it came
+down to the features above, plus a web interface, server, database, and a
+hosting machanism.
+
+i already decided on using node.js, so i already figured that would be my
+server. and i already decided on mongodb. both of these have free hosting
+options, so i am going to start by using them (mongolab and nodejitsu). i
+registered for accounts on both.
+
+(i also started a new tasklist file at this point. i used it to only write what
+i need to do now, or need to do next.)
+
+step two is to build a simple web server, a static html page, and push it to the
+server. this also made me realize i need a deploy process, so i added that to
+the list. nodejitsu has that capability, so i will use that to deploy.
