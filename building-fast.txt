@@ -48,4 +48,66 @@ i need to do now, or need to do next.)
 
 step two is to build a simple web server, a static html page, and push it to the
 server. this also made me realize i need a deploy process, so i added that to
-the list. nodejitsu has that capability, so i will use that to deploy.
+the list. nodejitsu has that capability, so i use that to deploy. it was pretty
+easy. all it takes is running:
+
+    sudo jitsu deploy
+
+at this stopping point, i have a web page that i display on a hosted site. and i
+pass one of my fundamentals by deploying early.
+
+== 2012/12/27 ==
+
+so now i want to build the simple app. lets see how long this takes. its going
+to have the basic features needed - add and display items -- and then deploy it
+to production.
+
+i like to use angular, so i'm going to start by adding that to the index. then
+i'm going to add bootstrap because that will make UI development faster.
+
+i built the app using bootstrap, angular, and a simple main.js script. i started
+by only added the item add functionality and showing it in the list. then i
+setup the url to submit the ajax request.
+
+i then used mongoose to quickly setup the database environment. this worked well
+and only took a few minutes to tie into the database. but then i ran into a
+problem. to deploy, i need to change the pointer for the database host from my
+local machine to the mongolab instance that i have setup. so now i have to setup
+a conf file. going to start with nconf and see how it works. i added it to my
+packages and installed it.
+
+for simple use, i'm using an environment variable for determining which conf
+file to load. i created a config file and load in a conf file based on the
+NODE_ENV environment variable. setup the two configuration files. still need to
+get the mongolab URL and POST configured in the prod file.
+
+after spending almost 2 hours on trying to figure out why this didn't work when
+deployed to nodejitsu, i gave up and just commented out the lines for prod. i'll
+come back to this again a little later -- when i finally get tired of making
+these code updates.
+
+== 2012/12/28 ==
+
+in about two hours, i was able to hack together the rest of the basic app. i ran
+into a few stumbling blocks, mostly related to the fact that i'm still learning
+angular, node.js, and mongoose. but it all came together pretty well at the end.
+the code isn't pretty, but it functions.
+
+one thing i found was that working on the project in this way caused a lot of
+additional work while updating the back-end because i had to use the UI to test.
+next time, i need to write test functions as i go for the API. angular provides
+some UI testing capabilities that I also need to investigate. i added this as a
+feature to add to my framework.
+
+at this stopping point, i've added the top two feature for my app and checked
+off all but the last two pieces of my framework. overall, it only took a few
+hours to get here. even less if you exclude the two hours i spent fighting with
+nconf last night.
+
+i set the next thing to work on in my tasklist before finishing up.
+
+== other things that need to happen ==
+* better code organization
+* improve the UI
+* improve the UI for mobile
+
