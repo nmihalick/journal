@@ -3,10 +3,11 @@ mockups. using bootstrap so that a lot of css doesn't need to be written.
 
 = the app =
 a shopping list app. this app should have the following features:
-* multiple stores
-* multiple lists going at the same time
+* multiple lists 
 * collect quantity + item name
 * provide checkbox to tick off items gotten while shopping
+* provide easy way to add items
+* toggle between shopping and editing modes
 
 = getting started =
 * initial directory setup
