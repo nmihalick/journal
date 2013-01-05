@@ -1,51 +1,115 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>shopping lists!</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <style type="text/css">
-    </style>
-  </head>
-  <body>
-    <div class="page-header">
-	<h1>List 1</h1>
-    </div>
-    <div class="container-fluid">
-	<div class="span2">
-	    <ul class="nav nav-list sl-sidenav" id="list-nav">
-		<li><a href="#" class="active">list 1</a></li><li><a href="#">list 2</a></li><li><a
-		href="#">list 3</a></li><li><a href="#">list 4</a></li><li class="divider"></li>
-		<li><a href="#" id="start_new_list">new list</a>
-	    </li></ul>
+<html lang="en">
+    <head>
+	<title>shopping lists!</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
+    </head>
+    <body>
+	<div class="page-header">
+	    <h1>List 1</h1>
 	</div>
-	<div class="span10">
-	    <ul class="nav nav-pills">
-		<li class="active">
-		    <a href="#" id="nav_edit">edit</a>
-		</li>
-		<li>
-		    <a href="#" id="nav_shop">shop</a>
-		</li>
-	    </ul>
-	    <ul class="unstyled nav-list" id="shopping-list">
-	    <li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">eggs</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li><li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">milk</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li><li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">shredded cheese</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li><li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">bread</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li><li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">bacon</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li><li class="row-fluid"><div class="span8"><label class="checkbox"><input type="checkbox">tomatoes</label></div><div class="span4"><button type="button" class="btn btn-danger btn-mini sl-remove-item"><i class="icon-minus"></i></button></div></li></ul>
-	    <form class="form-horizontal" id="edit_form" style="">
-		<div class="control-group">
-		    <input type="text" id="new_items_text" placeholder="add items here" />
+	<div class="row-fluid">
+	    <div class="span2">
+		<ul class="nav nav-list" id="list-nav">
+		    <li class="active"><a href="#">list 1</a></li>
+		    <li><a href="#">list 2</a></li>
+		    <li><a href="#">list 3</a></li>
+		    <li><a href="#">list 4</a></li>
+		    <li class="divider"></li>
+		    <li><a href="#" id="start_new_list">new list</a></li>
+		    <li class="divider"></li>
+		</ul>
+	    </div>
+	    <div class="span8">
+		<ul class="nav nav-pills">
+		    <li class="active">
+			<a href="#" id="nav_edit">edit</a>
+		    </li>
+		    <li>
+			<a href="#" id="nav_shop">shop</a>
+		    </li>
+		</ul>
+		<div class="well">
+		    <ul class="unstyled" id="shopping-list">
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>eggs</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>milk</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>shredded cheese</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>bread</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>bacon</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+			<li>
+			    <label class="checkbox inline">
+				<input type="checkbox">
+				<span>tomatoes</span>
+			    </label>
+			    <button 
+				class="pull-right btn btn-danger btn-mini">
+				<i class="icon-minus"></i>
+			    </button>
+			</li>
+		    </ul>
 		</div>
-		<div class="control-group">
-		    <button id="add_items" type="submit" class="btn btn-primary">add</button>
-		    <button type="button" class="btn">cancel</button>
-		</div>
-	    </form>
+		<form id="edit_form">
+		    <div class="control-group">
+			<input type="text" id="new_items_text" placeholder="add items here" />
+		    </div>
+		    <div class="control-group">
+			<button id="add_items" class="btn btn-primary">add</button>
+			<button class="btn">cancel</button>
+		    </div>
+		</form>
+	    </div>
 	</div>
-    </div>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="./bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-</body></html>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="./bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>
