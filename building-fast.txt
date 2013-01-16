@@ -115,6 +115,73 @@ i redeployed the code. this is still a pain in the ass. i need to come up with a
 configuration path that works. i'll need to do some more research to see what
 other people are doing in nodejs.
 
+== 2013/01/06 ==
+
+i lost some momentum and didn't do much in recent days. i played around a bit
+with some different organization of the code, but nothing really changed. i
+mostly spun my wheels while i was doing it.
+
+i'm giving myself a short time limit for my next task. before getting started, i
+looked at the notes i wrote last time i worked for some things to work on. then
+i removed all of those notes to reset the tasklist from ground zero.
+
+i played with bootstrap a bit today and implemented a few things from what i
+learned. this made the app look better on a mobile interface.
+
+i started doing some work without identifying a task, so i ended up building the
+Store Schema. This doesn't match how i wanted to work, so i'm going to move on
+while it is untested.
+
+at this point, i created a branch. this way i know i'm on something different
+than what is released. and HEAD is the releasable branch.
+
+after i started to add the stores UI, i realized i needed to do some more
+sketching. that is my next task when i start back up.
+
+== 2013/01/07 ==
+
+did the sketches for the stores. once they were done, i moved on to html
+mockups.
+
+the sketching was fast and easy. not too hard at all.
+
+for the mockups, i put the 3 modes side by side columns in flat html. then merged them
+down into one column. then i started to tie in angular. started running into
+problems trying to determine how i should show/hide the different elements based
+on the mode.
+
+== 2013/01/08 ==
+
+spent more time squabbling over some angular directives trying to come up with
+too sophistic of a solution. moved on to an easier solution after spending too
+much time on building a custom directive. using ng-show and ng-hide worked a lot
+better.
+
+also fought through a bunch of errors related to typoes that caused some grief.
+
+overall, spent about an hour and a half on it, so not too bad overall. at this
+point i have the 3 store screen modes tied into angular without the back end.
+this entire system worked pretty well and i learned some things that should
+speed me up for the next iteration like this. i'm going to start over with the
+item list views to see if that is the case. i do need the 3 states, but i also
+need to identify which store i'm in and how to flip back to the list of stores.
+
+i also know i need to spend time on fixing express and how the server is serving
+the files. that could be my next step instead -- not sure yet.
+
+== sometime in between ==
+
+used the angular express seed to setup the new express / angular setup. it took
+a while to learn all the javascript, but i was able to convert all of the
+javascript to the new setup. it took a few hours.
+
+== 2013/01/15 ==
+
+i started to put mock APIs in place. again, it took a bit to get used to the new
+setup, but it works pretty well. after about an hour i mocked up the services.
+will mockup the item services next, then i'll be able to start pulling the code
+in.
+
 == other things that need to happen ==
 * better code organization
 * improve the UI
