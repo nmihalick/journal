@@ -1,0 +1,108 @@
+this article outlines the best way (i know) to setup a node.js dev environment.
+
+= version control =
+
+i like git, so i'm going to use that. make sure to git init your directory when
+you start development.
+
+i start my new repos using a README file with a line or two describing the
+project. i like to include this so that i have something to refer to if i move
+on and then come back to the project later.
+
+* create your README file.
+* git init
+* git add README && git commit -m "repo initialized."
+
+i also setup the .gitignore to ignore "node_modules/". its a bad practice to
+commit this with your application. it takes up unecessary space in your repo.
+
+= directory structure =
+
+i like to use the following directory structure:
+
+docs/  - store any documents related to the project being built.
+test/  - store any unit tests or other tests associated with the project.
+code/  - store the code for the project.
+
+= tools =
+
+== what to do? ==
+
+when starting new projects, i start with a simple todo.txt file in docs/. this
+gives me a simple place to start tracking what i want to do. if the project
+starts to get complex, i move to something else appropriate to track bugs and
+issues. if it doesn't i leave it as is. i usually keep this up on the screen as
+i write.
+
+this has the added benefit in that if i spend some time away from the project, i
+know what i was doing when i stopped working on it.
+
+== running a node server ==
+
+node-supervisor [https://github.com/isaacs/node-supervisor] is a great tool. it
+will handle restarting your node server for you automatically when it detects a
+change to one of your node.js files. i install this globally on my development
+environments.
+
+npm install supervisor -g
+
+then to actually run the server, i code in a script in my package for my dev
+environment. i call it dev. the script is simply "dev": "supervisor app" and i
+run it by calling "npm run-script dev". 
+
+== unit testing ==
+
+mocha is the only node.js test framework i've used thus far. i'll update this if
+i find something better. because this could change for future projects, i add
+this to my package.json file. i use should along with mocha. include both of
+these in your dependencies.
+
+"mocha": "1.3.0"
+"should": "1.0.0"
+
+i haven't done much with bdd to date, so i usually use the tdd interface with
+mocha. you do that by running:
+
+mocha -u tdd
+
+=== watch your tests! ===
+
+i started using mocha by running writing my tests in one window and running them
+in another. knowing that this isn't ideal, i started looking into node.js test
+runners. i quickly found that mocha has its own watch option. for development, i
+realized this was much easier than finding a test runner during development.
+
+usually in a separate term (usually on the same page as my editor) i do two
+things:
+
+watch the suite:
+
+mocha -u tdd -R min -w
+
+or watch the specific tests i'm writing:
+
+mocha -u tdd -R min -w [file]
+
+i let the suite tell me which to do. if it is quick, i just watch that. when it
+starts to get long, i'll switch to watch the test file i'm editing and then test
+the whole suite before a commit.
+
+i also use the min reporter when watching to limit the output.
+
+== some good libraries ==
+
+these libraries are also good to include in your package dependencies:
+
+underscore provides some built in libraries that are very useful when doing
+javascript development. especially clone.
+
+"underscore": "1.4.2"
+
+= programming =
+
+== use strict! ==
+
+i like to use strict when writing code in node.js. start each of your files
+with:
+
+'use strict';
