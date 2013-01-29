@@ -1,0 +1,212 @@
+recording of things i did to write a prototype passport app
+
+== the app ==
+
+the app is just going to accept auth then have one call to an api.
+
+== setup ==
+
+in the empty repo, i use the built-in express command to do the initial setup.
+
+    /node_modules/express/bin/express --sessions
+
+then i edited the package.json. i added a name, description, changed the start
+script to use supervisor instead of node, and added the dependencies. the
+dependencies include underscore, express, jade, mongoose, passport, and
+passport-local.
+
+i finished by starting my server and making sure it worked in the browser.
+
+    npm start
+
+/make sure you have mongodb running before starting!/
+
+== passport and passport-local ==
+
+i'm starting with a simple authentication that doesn't connect to a db. that
+makes it simpler to figure out how it works without the database getting in the
+way.
+
+to start, require the two modules.
+
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
+next i'll setup the user information. it is an array with two objects. the
+objects contain the id, username, and password. the ID is used later for session
+storage.
+
+    var users = [
+        { _id: "12345", username: "testone", password: "password1" },
+        { _id: "54321", username: "testtwo", password: "password2" }
+    ];
+
+before going any further, make sure you add the passport info to the express
+configuration.
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+next i setup the serialize and deserialize functions. serialize is pretty
+simple, whereas the desserialize needs to find the user by the passed id.
+
+    passport.serializeUser(function(user, done) {
+        done(null, user._id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+        for (var i=0; i<users.length; i++) {
+            if (users[i]._id == id) {
+                done(null, users[i]);
+            }
+        }
+        done(new Error("user not found"));
+    });
+
+before getting into authentication, i'm going to create a function to look for
+the user. this will make it easier to segway to using a db later in my example.
+
+    var findByUsername = function(username, done) {
+        for (var i=0; i<users.length; i++) {
+            if (users[i].username === username) {
+                return done(null, users[i]);
+            }
+        }
+        return done(null);
+    };
+
+now implement the authentication using the new function. if the user isn't found
+or the password isn't correct, it sends back one generic message.
+
+    passport.use(new LocalStrategy(
+        function(username, password, done) {
+            console.log("HERE");
+            process.nextTick(function() {
+                findByUsername(username, function(err, user) {
+                    if (err) {
+                        return done(err);
+                    }
+                    else if (user === undefined || user.password != password) {
+                        return done(null, false, { message: "username or password incorrect" });
+                    }
+                    return done(null, user);
+                });
+            });
+        }
+    ));
+
+with that out of the way, we can build in the login page. create a
+views/login.jade file and insert the following snippet.
+
+    extends layout
+
+    block content
+        h1= title
+        form(method="post")
+            div
+                input(type="text", name="username", placeholder="login")
+            div
+                input(type="password", name="password", placeholder="password")
+            div
+                input(type="submit", value="login")
+
+and add in the route for this.
+
+    app.get('/login', function(req, res) {
+        res.render('login', { title: 'login' });
+    });
+
+the form needs something to post to. this is where the good stuff comes in. its
+actually really simple.
+
+app.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
+
+== now lets connect to mongoose ==
+
+connecting to mongoose requires a new module, passport-local-mongoose. start by
+adding this to your package.json and install it. then add mongoose, its
+schema, and passport-local-mongoose to your requires. and add in a mongoose
+connect line, like so (using your own local setup info):
+
+    mongoose.connect('mongodb://localhost:27017/passport-prototype');
+
+now lets add the Schema. this is also pretty easy because
+passport-local-mongoose handles most of it. we'll add a name to our schema just
+so we have something to enter.
+
+    var User = new Schema({
+        name: String
+    });
+    User.plugin(passport_local_mongoose);
+    UserModel = mongoose.model('User', User);
+
+before making any changes, i want to be able to create users. to do this, i'll
+setup a simple registration page. for the view, i'm just reusing login to keep
+it simple. the title is dynamic. i'll make the button display that text so its
+dynamic and create the route as follows.
+
+    app.get('/register', function(req, res) {
+        res.render('login', { title: 'register' });
+    });
+
+and of course we need the post method. this makes use of some more
+passport-local-mongoose helpers. registering will direct you home, otherwise
+you'll see the page again. pretty easy to find out if its working.
+
+    app.post('/register', function(req, res) {
+        UserModel.register(new UserModel({username: req.body.username}), req.body.password, 
+            function(err, user) {
+                if (err) {
+                    return res.render('login', { title: 'register' });
+                }
+                res.redirect('/');
+                return true;
+            }
+        );
+    });
+
+with the rest of the work that was done, the rest is pretty easy. first, we'll
+want to use a few more helpers provided by passport-local-mongoose. this
+includes rewriting the serialize and deserialize functions.
+
+    passport.serializeUser(UserModel.serializeUser());
+    passport.deserializeUser(UserModel.deserializeUser());
+
+you also need to do the same to the use method. while doing this, you can also
+remove that findByUser function. i thought it would help while implementing my
+own mongoose code, but the nice people that built passport-local-mongoose does
+it for you.
+
+    passport.use(new LocalStrategy(UserModel.authenticate()));
+
+hopefully you remembered the username and password of a user you created. if you
+do, go to /login and test this out. you should see it working.
+
+== final steps ==
+
+one thing i haven't done is show any information about the logged in user
+anywhere. i'd like to put this on the index if the user exists. i simply want to
+show the user's username if they are logged in. first i'll edit the index route
+in the pre-generated express routes/index. we'll pass req.user as data to that
+page render. the function will now look like this:
+
+    exports.index = function(req, res){
+      res.render('index', { title: 'Express', user : req.user });
+    };
+
+and then add these lines to the end of your views/index.jade:
+
+    if (user)
+        p your username is #{user.username}
+
+== extra reference ==
+
+there is a lot more you can do here. this prototype is only touching the
+surface. you can hit these links if you'd like more information for using any of
+these modules.
+
+http://passportjs.org/
+https://github.com/jaredhanson/passport-local
+https://github.com/saintedlama/passport-local-mongoose
