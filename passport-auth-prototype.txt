@@ -201,6 +201,19 @@ and then add these lines to the end of your views/index.jade:
     if (user)
         p your username is #{user.username}
 
+== final word ==
+
+i used several examples, all found through the below links, to help me while
+building this. overall, it only took me about two hours to write the code along
+with this documentation. it was really really easy to implement. 
+
+i did run into one gotcha trying to use failureFlash. this is why i don't output
+any error messages to the pages. from what i found in my brief search, the
+version of express i'm using doesn't provide req.flash any longer. i moved on
+because it wasn't important for this tutorial. it should be easy to implement a
+custom render to handle this. maybe one day i'll come back around and add that
+in.
+
 == extra reference ==
 
 there is a lot more you can do here. this prototype is only touching the
