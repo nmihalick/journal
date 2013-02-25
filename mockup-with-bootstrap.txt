@@ -173,6 +173,30 @@ the textbox is standard, so i don't cover much there. the buttons use the
 bootstrap btn class. i entered an add and a cancel button. on the add, i put a
 btn-primary class on it to make it appear differently that the cancel button.
 
+== responsive ==
+
+the best part about doing mockups with way is that the finish product is
+responsive. there were a few decisions i made above that made everything display
+properly in smaller contexts.
+
+you can easily test this by resizing your browser. as you shrink it, you'll see
+it change.
+
+i like to use one of the chrome built-in tools to test my responsive layouts. i
+find that to be better than just doing resize tests. to use this, open up the
+chrome developer console and:
+
+# click the little gear icon towards the bottom right corner
+# click the overrides tab
+# check user agent, device metric, and/or simulate touch events
+
+you'll be able to select different options once you enable those options.
+
+there are also several tools available for both chrome and firefox that will
+enable you to do similar things. i typically try to keep my development add-ons
+to a minimum so that i know how to do it if i have to write code on a different
+computer.
+
 = next steps =
 
 if you are building something you want to share with people, both Amazon S3 and

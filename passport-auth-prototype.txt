@@ -119,9 +119,9 @@ and add in the route for this.
 the form needs something to post to. this is where the good stuff comes in. its
 actually really simple.
 
-app.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
-});
+    app.post('/login', passport.authenticate('local'), function(req, res) {
+        res.redirect('/');
+    });
 
 == now lets connect to mongoose ==
 
