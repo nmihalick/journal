@@ -182,6 +182,15 @@ setup, but it works pretty well. after about an hour i mocked up the services.
 will mockup the item services next, then i'll be able to start pulling the code
 in.
 
+== 2-13/01/26 ==
+
+did some research into authentication modules. they are all overly complicated.
+i think i might be better off writing my own initially.
+
+i did find a useful nugget in the code i was reviewing that shows how to setup a
+configuration file. i gave it a try and it seems to work well. will need to look
+at how to configure jitsu to change the conf file on deployments.
+
 == other things that need to happen ==
 * better code organization
 * improve the UI
